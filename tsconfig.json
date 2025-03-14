@@ -1,0 +1,54 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es6",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        /* Base Options: */
+        // "esModuleInterop": true,
+        // "skipLibCheck": true,
+        // "target": "es2022",
+        // "allowJs": true,
+        // "resolveJsonModule": true,
+        // "moduleDetection": "force",
+        // "isolatedModules": true,
+        // "allowSyntheticDefaultImports": true,
+        // "jsx": "react-jsx",
+        /* Strictness */
+        // "strict": true,
+        // "noUncheckedIndexedAccess": true,
+        // "outDir": "dist",
+        // "sourceMap": true,
+        // "composite": true,
+        // "declarationMap": true,
+        /* If NOT transpiling with TypeScript: */
+        // "moduleResolution": "Bundler",
+        // "module": "ESNext",
+        // "noEmit": true,
+        "paths": {
+            "~/*": [
+                "./src/*"
+            ]
+        },
+        /* If your code runs in the DOM: */
+        // "lib": [
+        //     "es2022",
+        //     "dom",
+        //     "dom.iterable"
+        // ],
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
+    },
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "eslint.config.mjs"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+}
