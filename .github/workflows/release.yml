@@ -9,30 +9,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
 
     steps:
-      - name: Checkout do código
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'pnpm'
+            node-version: ${{ matrix.node-version }}
+            cache: 'pnpm'
 
-      - name: Instalar pnpm
-        run: npm install -g pnpm
-
-      - name: Instalar dependências
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Rodar build
+      - name: Build
         run: pnpm build
 
-      - name: Compactar pasta dist
+      - name: Zip
         run: zip -r dist.zip dist/
 
-      - name: Criar Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist.zip
