@@ -1,9 +1,10 @@
 name: Build and Release
 
 on:
-  push:
-    tags:
-      - "v*.*.*" # Dispara quando um tag de versão é criada
+    push:
+      branches:
+        - master
+    workflow_dispatch:
 
 jobs:
   build:
