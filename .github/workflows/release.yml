@@ -2,12 +2,14 @@ name: Build and Release
 
 on:
     push:
-      branches:
-        - master
-    workflow_dispatch:
+      tags:
+        - v*
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,9 +39,12 @@ jobs:
       - name: Zip
         run: zip -r dist.zip dist/
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist.zip
+      - name: Create release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            tag: ${{ github.ref_name }}
+        run: |
+            gh release create "$tag" \
+                --repo="$GITHUB_REPOSITORY" \
+                --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+                --generate-notes

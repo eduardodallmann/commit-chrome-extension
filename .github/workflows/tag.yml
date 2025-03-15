@@ -1,0 +1,27 @@
+name: Create Tag
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Ler versão do package.json
+        id: package
+        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Criar tag se não existir
+        run: |
+          if ! git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+          else
+            echo "Tag v${VERSION} já existe, pulando..."
+          fi
