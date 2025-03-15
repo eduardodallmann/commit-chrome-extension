@@ -45,7 +45,7 @@ jobs:
         run: echo "TAG=$(git describe --tags --match 'v*' --abbrev=0)" >> $GITHUB_ENV
 
       - name: Verificar tag encontrada
-        run: echo "Última tag encontrada ${{ env.TAG }}"
+        run: echo "echo ${{ env.ref_name }}"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
