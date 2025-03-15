@@ -41,7 +41,9 @@ jobs:
         run: pnpm build
 
       - name: Zip
-        run: zip -r dist.zip dist/
+        run: |
+            cd dist
+            zip -r ../dist.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v2
