@@ -23,15 +23,6 @@ jobs:
         id: package
         run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: Criar tag se não existir
-        run: |
-          if ! git rev-parse "v${VERSION}" >/dev/null 2>&1; then
-            git tag "v${VERSION}"
-            git push origin "v${VERSION}"
-          else
-            echo "Tag v${VERSION} já existe, pulando..."
-          fi
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -52,13 +43,8 @@ jobs:
       - name: Zip
         run: zip -r dist.zip dist/
 
-      - name: GitHub Tag Name example
-        run: |
-            echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-            echo "Tag name from github.ref_name: ${{  env.VERSION }}"
-
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-            tag_name: ${{ env.VERSION }}
+            tag_name: v${{ env.VERSION }}
             files: dist.zip
