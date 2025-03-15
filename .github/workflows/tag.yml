@@ -6,9 +6,15 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  create-tag:
+  release:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
@@ -25,3 +31,34 @@ jobs:
           else
             echo "Tag v${VERSION} já existe, pulando..."
           fi
+
+          - name: Install pnpm
+          uses: pnpm/action-setup@v4
+          with:
+            version: 10
+  
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+            node-version: ${{ matrix.node-version }}
+            cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Zip
+        run: zip -r dist.zip dist/
+
+      - name: GitHub Tag Name example
+        run: |
+            echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+            echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+            tag_name: ${{ env.ref_name }}
+            files: dist.zip
