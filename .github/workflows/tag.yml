@@ -32,9 +32,9 @@ jobs:
             echo "Tag v${VERSION} já existe, pulando..."
           fi
 
-          - name: Install pnpm
-          uses: pnpm/action-setup@v4
-          with:
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
             version: 10
   
       - name: Use Node.js ${{ matrix.node-version }}
