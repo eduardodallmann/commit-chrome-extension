@@ -33,7 +33,7 @@ export const common: Configuration = {
         },
       ],
     }),
-    ...getHtmlPlugins(['popup', 'options', 'newTab']),
+    ...getHtmlPlugins(['popup']),
   ],
   module: {
     rules: [
