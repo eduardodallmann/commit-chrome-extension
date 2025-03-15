@@ -40,7 +40,11 @@ jobs:
       - name: Zip
         run: zip -r dist.zip dist/
 
+      - name: Set TAG environment variable
+        run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.TAG }}
           files: dist.zip
