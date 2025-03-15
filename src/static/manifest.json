@@ -1,11 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "react-boilerplate",
-    "description": "react-boilerplate for chrome extension",
+    "name": "Bitbucket Pull Request Extension",
+    "description": "This extension will help you to add reviewers to your pull request",
     "version": "1.0.0",
     "action": {
         "default_popup": "popup.html",
-        "default_title": "React Boilerplate",
+        "default_title": "Bitbucket Pull Request Extension",
         "default_icon": "icon-off.png"
     },
     "permissions": [
