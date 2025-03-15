@@ -40,8 +40,12 @@ jobs:
       - name: Zip
         run: zip -r dist.zip dist/
 
-      - name: Set TAG environment variable
-        run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: Obter a última tag
+        id: get_tag
+        run: echo "TAG=$(git describe --tags --match 'v*' --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Verificar tag encontrada
+        run: echo "Última tag encontrada ${{ env.TAG }}"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
